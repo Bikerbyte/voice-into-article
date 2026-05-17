@@ -8,7 +8,7 @@ from typing import Any
 
 
 @dataclass(frozen=True)
-class ExamProfile:
+class NoteProfile:
     id: str
     name: str
     language: str
@@ -21,7 +21,7 @@ class ExamProfile:
     question_patterns: list[str]
 
 
-def load_profile(profile: str | Path) -> ExamProfile:
+def load_profile(profile: str | Path) -> NoteProfile:
     path = Path(profile)
     if path.exists():
         data = tomllib.loads(path.read_text(encoding="utf-8"))
@@ -34,7 +34,7 @@ def load_profile(profile: str | Path) -> ExamProfile:
 
     try:
         profile_text = (
-            resources.files("exam_scribe")
+            resources.files("note_scribe")
             .joinpath("profiles")
             .joinpath(profile_name)
             .read_text(encoding="utf-8")
@@ -46,12 +46,12 @@ def load_profile(profile: str | Path) -> ExamProfile:
 
 
 def list_builtin_profiles() -> list[str]:
-    profile_dir = resources.files("exam_scribe").joinpath("profiles")
+    profile_dir = resources.files("note_scribe").joinpath("profiles")
     return sorted(item.name.removesuffix(".toml") for item in profile_dir.iterdir() if item.name.endswith(".toml"))
 
 
-def _profile_from_data(data: dict[str, Any]) -> ExamProfile:
-    return ExamProfile(
+def _profile_from_data(data: dict[str, Any]) -> NoteProfile:
+    return NoteProfile(
         id=str(data["id"]),
         name=str(data["name"]),
         language=str(data.get("language", "zh-TW")),

@@ -8,8 +8,8 @@ from PyInstaller.utils.hooks import collect_all
 ROOT = Path.cwd()
 
 datas = [
-    (str(ROOT / "src" / "exam_scribe" / "profiles" / "*.toml"), "exam_scribe/profiles"),
-    (str(ROOT / "assets" / "exam_scribe.ico"), "assets"),
+    (str(ROOT / "src" / "note_scribe" / "profiles" / "*.toml"), "note_scribe/profiles"),
+    (str(ROOT / "assets" / "note_scribe.ico"), "assets"),
 ]
 binaries = []
 hiddenimports = []
@@ -29,7 +29,7 @@ for package in [
 
 
 a = Analysis(
-    ["scripts/exam_scribe_ui_launcher.py"],
+    ["scripts/note_scribe_ui_launcher.py"],
     pathex=[str(ROOT / "src")],
     binaries=binaries,
     datas=datas,
@@ -48,13 +48,13 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name="ExamScribe",
+    name="NoteScribe",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     console=False,
-    icon=str(ROOT / "assets" / "exam_scribe.ico"),
+    icon=str(ROOT / "assets" / "note_scribe.ico"),
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
@@ -68,5 +68,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name="ExamScribe",
+    name="NoteScribe",
 )

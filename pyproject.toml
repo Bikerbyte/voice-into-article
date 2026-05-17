@@ -1,7 +1,7 @@
 [project]
-name = "exam-scribe"
+name = "note-scribe"
 version = "0.1.0"
-description = "Local-first exam prep note generator from system audio."
+description = "Local-first note generator from system audio."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -15,12 +15,12 @@ build = [
 ]
 
 [project.scripts]
-exam-scribe = "exam_scribe.cli:main"
-exam-scribe-ui = "exam_scribe.ui:main"
+note-scribe = "note_scribe.cli:main"
+note-scribe-ui = "note_scribe.ui:main"
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-data]
-exam_scribe = ["profiles/*.toml"]
+note_scribe = ["profiles/*.toml"]

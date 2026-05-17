@@ -8,7 +8,7 @@ if (-not (Test-Path ".venv\Scripts\python.exe")) {
 }
 
 .\.venv\Scripts\python -m pip install -e ".[build]"
-.\.venv\Scripts\pyinstaller --clean --noconfirm ExamScribe.spec
+.\.venv\Scripts\pyinstaller --clean --noconfirm NoteScribe.spec
 
 Write-Host ""
-Write-Host "Built: $root\dist\ExamScribe\ExamScribe.exe"
+Write-Host "Built: $root\dist\NoteScribe\NoteScribe.exe"

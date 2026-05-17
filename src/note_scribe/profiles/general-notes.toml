@@ -1,0 +1,29 @@
+id = "general-notes"
+name = "一般筆記"
+category = "general"
+language = "zh-TW"
+description = "適合課程、影片、討論或日常資料整理的通用筆記模板。"
+tags = ["notes", "transcript", "summary"]
+
+glossary = [
+  "Action Item",
+  "Decision",
+  "Follow-up",
+]
+
+sections = [
+  "重點摘要",
+  "重要細節",
+  "待辦事項",
+  "需要確認",
+  "原始逐字稿",
+]
+
+question_patterns = [
+  "整理出本段最重要的主題與結論。",
+  "標出後續需要處理、確認或追蹤的事項。",
+]
+
+[corrections]
+"action items" = "Action Item"
+"follow up" = "Follow-up"

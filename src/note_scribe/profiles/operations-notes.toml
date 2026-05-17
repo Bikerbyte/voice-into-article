@@ -1,0 +1,29 @@
+id = "operations-notes"
+name = "營運轉錄"
+category = "operations"
+language = "zh-TW"
+description = "適合營運會議、流程說明、客服回顧或專案同步的轉錄整理模板。"
+tags = ["operations", "notes", "summary"]
+
+glossary = [
+  "SOP",
+  "KPI",
+  "Issue",
+  "Follow-up",
+]
+
+sections = [
+  "重點摘要",
+  "流程與規則",
+  "問題與風險",
+  "後續追蹤",
+  "原始逐字稿",
+]
+
+question_patterns = [
+  "整理出流程、規則、責任歸屬與需要追蹤的事項。",
+  "把可能影響營運或交付的問題列出來。",
+]
+
+[corrections]
+"follow up" = "Follow-up"

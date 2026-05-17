@@ -1,0 +1,29 @@
+id = "meeting-notes"
+name = "會議記錄"
+category = "meeting"
+language = "zh-TW"
+description = "適合會議、討論、訪談或工作同步的記錄模板。"
+tags = ["meeting", "notes", "transcript"]
+
+glossary = [
+  "Decision",
+  "Action Item",
+  "Owner",
+  "Deadline",
+]
+
+sections = [
+  "會議摘要",
+  "決議事項",
+  "待辦事項",
+  "風險與問題",
+  "原始逐字稿",
+]
+
+question_patterns = [
+  "整理出決議、負責人、期限與下一步。",
+  "把尚未定案或需要補充資料的項目列出來。",
+]
+
+[corrections]
+"action items" = "Action Item"

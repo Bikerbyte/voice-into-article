@@ -45,11 +45,11 @@ class ArtifactResult:
     deleted_audio: bool
 
 
-class ExamScribeApp(tk.Tk):
+class NoteScribeApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("Exam Scribe")
-        icon_path = _resource_path("assets/exam_scribe.ico")
+        self.title("Note Scribe")
+        icon_path = _resource_path("assets/note_scribe.ico")
         if icon_path.exists():
             self.iconbitmap(str(icon_path))
         self.geometry("1280x880")
@@ -71,8 +71,8 @@ class ExamScribeApp(tk.Tk):
         self.current_prompt_path: Path | None = None
         self.current_note_path: Path | None = None
 
-        self.title_var = tk.StringVar(value="備考筆記")
-        self.profile_var = tk.StringVar(value="aws-saa-c03")
+        self.title_var = tk.StringVar(value="筆記")
+        self.profile_var = tk.StringVar(value="general-notes")
         self.device_var = tk.StringVar()
         self.workspace_var = tk.StringVar(value=str(_default_workspace()))
         self.local_transcribe_var = tk.BooleanVar(value=True)
@@ -127,8 +127,8 @@ class ExamScribeApp(tk.Tk):
         header = ttk.Frame(shell, style="App.TFrame")
         header.grid(row=0, column=0, sticky=tk.EW, pady=(0, 18))
         header.columnconfigure(0, weight=1)
-        ttk.Label(header, text="Exam Scribe", style="Title.TLabel").grid(row=0, column=0, sticky=tk.W)
-        ttk.Label(header, text="電腦聲音 -> 持續錄音 -> 分段本機轉錄 -> 備考 Markdown 草稿", style="Subtitle.TLabel").grid(row=1, column=0, sticky=tk.W, pady=(2, 0))
+        ttk.Label(header, text="Note Scribe", style="Title.TLabel").grid(row=0, column=0, sticky=tk.W)
+        ttk.Label(header, text="電腦聲音 -> 持續錄音 -> 分段本機轉錄 -> Markdown 筆記", style="Subtitle.TLabel").grid(row=1, column=0, sticky=tk.W, pady=(2, 0))
         ttk.Button(header, text="開啟資料夾", style="Ghost.TButton", command=self._open_workspace).grid(row=0, column=1, rowspan=2, sticky=tk.E)
 
         board = ttk.Frame(shell, style="Panel.TFrame", padding=18)
@@ -139,7 +139,7 @@ class ExamScribeApp(tk.Tk):
         self._label(board, "標題", 0, 0)
         ttk.Entry(board, textvariable=self.title_var).grid(row=0, column=1, columnspan=3, sticky=tk.EW, padx=(10, 0), pady=7)
 
-        self._label(board, "考試 Profile", 1, 0)
+        self._label(board, "筆記模板", 1, 0)
         self.profile_combo = ttk.Combobox(board, textvariable=self.profile_var, state="readonly")
         self.profile_combo.grid(row=1, column=1, sticky=tk.EW, padx=(10, 14), pady=7)
         self._label(board, "模型", 1, 2)
@@ -241,10 +241,10 @@ class ExamScribeApp(tk.Tk):
 
         device = self._selected_device()
         if not device:
-            messagebox.showerror("Exam Scribe", "尚未選擇音效來源。")
+            messagebox.showerror("Note Scribe", "尚未選擇音效來源。")
             return
 
-        title = self.title_var.get().strip() or "備考筆記"
+        title = self.title_var.get().strip() or "筆記"
         workspace = Path(self.workspace_var.get().strip() or "workspace")
         stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -310,7 +310,7 @@ class ExamScribeApp(tk.Tk):
         return True
 
     def _build_segment_job(self, number: int, segment: AudioSegment) -> SegmentJob:
-        title = self.title_var.get().strip() or "備考筆記"
+        title = self.title_var.get().strip() or "筆記"
         workspace = self.session_workspace or Path(self.workspace_var.get().strip() or "workspace")
         return SegmentJob(
             segment_number=number,
@@ -544,7 +544,7 @@ class ExamScribeApp(tk.Tk):
 
 def main() -> None:
     _enable_dpi_awareness()
-    app = ExamScribeApp()
+    app = NoteScribeApp()
     app.mainloop()
 
 
@@ -555,7 +555,7 @@ def _slug(value: str) -> str:
 
 def _default_workspace() -> Path:
     if getattr(sys, "frozen", False):
-        return Path.home() / "Documents" / "ExamScribe"
+        return Path.home() / "Documents" / "NoteScribe"
     return Path("workspace")
 
 

@@ -25,12 +25,12 @@ def main(argv: list[str] | None = None) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="exam-scribe",
-        description="Generate exam-prep Markdown notes from system audio.",
+        prog="note-scribe",
+        description="Generate Markdown notes from system audio.",
     )
     sub = parser.add_subparsers(required=True)
 
-    profiles = sub.add_parser("profiles", help="List built-in exam profiles.")
+    profiles = sub.add_parser("profiles", help="List built-in note templates.")
     profiles.set_defaults(func=cmd_profiles)
 
     devices = sub.add_parser("devices", help="List Windows speaker loopback recording devices.")
@@ -46,7 +46,7 @@ def build_parser() -> argparse.ArgumentParser:
     transcribe = sub.add_parser("transcribe", help="Transcribe an audio file.")
     transcribe.add_argument("audio", type=Path)
     transcribe.add_argument("--out", type=Path)
-    transcribe.add_argument("--profile", default="aws-saa-c03")
+    transcribe.add_argument("--profile", default="general-notes")
     transcribe.add_argument("--provider", choices=["local", "openai"], default="local")
     transcribe.add_argument("--model", help="Use `base`/`small` for local or an OpenAI transcription model.")
     transcribe.add_argument("--device", default="cpu", help="Local transcription device: cpu or cuda.")
@@ -57,7 +57,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     note = sub.add_parser("note", help="Generate a Markdown study note from a transcript.")
     note.add_argument("transcript", type=Path)
-    note.add_argument("--profile", default="aws-saa-c03")
+    note.add_argument("--profile", default="general-notes")
     note.add_argument("--title", default="Study Note")
     note.add_argument("--out", type=Path)
     note.add_argument("--llm", choices=["none", "openai"], default="none")
@@ -67,7 +67,7 @@ def build_parser() -> argparse.ArgumentParser:
     prompt = sub.add_parser("prompt", help="Build a pasteable chat prompt without using an API key.")
     prompt.add_argument("--transcript", type=Path)
     prompt.add_argument("--audio", type=Path)
-    prompt.add_argument("--profile", default="aws-saa-c03")
+    prompt.add_argument("--profile", default="general-notes")
     prompt.add_argument("--title", default="Study Note")
     prompt.add_argument("--out", type=Path)
     prompt.set_defaults(func=cmd_prompt)
@@ -78,7 +78,7 @@ def build_parser() -> argparse.ArgumentParser:
     run = sub.add_parser("run", help="Record, transcribe, and generate a note.")
     run.add_argument("--minutes", type=float, default=5)
     run.add_argument("--seconds", type=float)
-    run.add_argument("--profile", default="aws-saa-c03")
+    run.add_argument("--profile", default="general-notes")
     run.add_argument("--title", default="Study Note")
     run.add_argument("--workspace", type=Path, default=Path("workspace"))
     run.add_argument("--device-index", type=int)
@@ -93,7 +93,7 @@ def build_parser() -> argparse.ArgumentParser:
     run.set_defaults(func=cmd_run)
 
     demo = sub.add_parser("demo", help="Create a sample transcript and note without recording or API calls.")
-    demo.add_argument("--profile", default="aws-saa-c03")
+    demo.add_argument("--profile", default="general-notes")
     demo.add_argument("--workspace", type=Path, default=Path("workspace"))
     demo.set_defaults(func=cmd_demo)
 
@@ -251,21 +251,12 @@ def cmd_demo(args: argparse.Namespace) -> int:
     profile = load_profile(args.profile)
     transcript_path = args.workspace / "notes" / f"demo-{profile.id}.transcript.txt"
     note_path = args.workspace / "notes" / f"demo-{profile.id}.md"
-    if profile.id == "aws-saa-c03":
-        sample = (
-            "In this section we compare S3, EBS, and EFS. "
-            "S3 is object storage and works well for durable static assets and backups. "
-            "EBS is block storage attached to EC2 instances, so exam questions often mention low latency disk access. "
-            "EFS is a managed file system for Linux workloads that need shared access across multiple instances. "
-            "For networking, VPC endpoints can keep traffic private without using the public internet. "
-            "Gateway endpoints are commonly discussed with S3 and DynamoDB, while interface endpoints use PrivateLink."
-        )
-    else:
-        sample = (
-            "This lecture introduces a Key Concept and explains its Definition. "
-            "The instructor then gives a Scenario where the exam asks for the best option under constraints. "
-            "When two answers look similar, compare the condition, exception, and operational tradeoff."
-        )
+    sample = (
+        "Today we reviewed the project timeline and confirmed two decisions. "
+        "The first action item is to update the onboarding document before Friday. "
+        "The second follow-up is to check whether the dashboard numbers match the weekly report. "
+        "There is one open issue about handoff timing, so the owner should confirm the deadline."
+    )
     transcript_path.parent.mkdir(parents=True, exist_ok=True)
     transcript_path.write_text(sample + "\n", encoding="utf-8")
     markdown = generate_note(

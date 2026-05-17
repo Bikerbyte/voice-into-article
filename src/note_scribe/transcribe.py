@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .profiles import ExamProfile
+from .profiles import NoteProfile
 
 
 class TranscriptionError(RuntimeError):
@@ -11,7 +11,7 @@ class TranscriptionError(RuntimeError):
 
 def transcribe_openai(
     audio_path: Path,
-    profile: ExamProfile | None = None,
+    profile: NoteProfile | None = None,
     model: str = "gpt-4o-mini-transcribe",
 ) -> str:
     try:
@@ -27,7 +27,7 @@ def transcribe_openai(
     prompt = None
     if profile and profile.glossary:
         terms = ", ".join(profile.glossary[:80])
-        prompt = f"Technical exam lecture. Preserve these terms exactly when spoken: {terms}."
+        prompt = f"Audio transcript. Preserve these terms exactly when spoken: {terms}."
 
     try:
         client = OpenAI()
@@ -41,7 +41,7 @@ def transcribe_openai(
     except OpenAIError as exc:
         raise TranscriptionError(
             "OpenAI transcription failed. Set OPENAI_API_KEY, check your account access, "
-            "or use `exam-scribe note` with an existing transcript."
+            "or generate notes from an existing transcript."
         ) from exc
 
     if isinstance(result, str):
@@ -56,7 +56,7 @@ def transcribe_openai(
 
 def transcribe_local(
     audio_path: Path,
-    profile: ExamProfile | None = None,
+    profile: NoteProfile | None = None,
     model: str = "base",
     device: str = "cpu",
     compute_type: str = "int8",
@@ -97,11 +97,11 @@ def transcribe_local(
     return "\n".join(lines).strip()
 
 
-def _initial_prompt(profile: ExamProfile | None) -> str | None:
+def _initial_prompt(profile: NoteProfile | None) -> str | None:
     if not profile or not profile.glossary:
         return None
     terms = ", ".join(profile.glossary[:80])
-    return f"Technical exam lecture. Preserve these terms exactly: {terms}."
+    return f"Audio transcript. Preserve these terms exactly: {terms}."
 
 
 def _format_timestamp(seconds: float) -> str:

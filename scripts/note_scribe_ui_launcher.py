@@ -1,4 +1,4 @@
-from exam_scribe.ui import main
+from note_scribe.ui import main
 
 
 if __name__ == "__main__":
