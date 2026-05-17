@@ -1,0 +1,26 @@
+[project]
+name = "exam-scribe"
+version = "0.1.0"
+description = "Local-first exam prep note generator from system audio."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "faster-whisper>=1.2.1",
+  "pyaudiowpatch>=0.2.12.8",
+]
+
+[project.optional-dependencies]
+build = [
+  "pyinstaller>=6.0",
+]
+
+[project.scripts]
+exam-scribe = "exam_scribe.cli:main"
+exam-scribe-ui = "exam_scribe.ui:main"
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+exam_scribe = ["profiles/*.toml"]

@@ -1,0 +1,69 @@
+id = "aws-saa-c03"
+name = "AWS Certified Solutions Architect - Associate"
+category = "cloud"
+language = "zh-TW"
+description = "這個 profile 針對 AWS SAA-C03 備考筆記最佳化，但 Exam Scribe 本身仍是通用備考工具。"
+tags = ["aws", "saa-c03", "cloud", "exam-prep"]
+
+glossary = [
+  "IAM",
+  "S3",
+  "EC2",
+  "EBS",
+  "EFS",
+  "VPC",
+  "Subnet",
+  "Route 53",
+  "CloudFront",
+  "ALB",
+  "NLB",
+  "Auto Scaling",
+  "RDS",
+  "Aurora",
+  "DynamoDB",
+  "ElastiCache",
+  "SQS",
+  "SNS",
+  "EventBridge",
+  "Lambda",
+  "KMS",
+  "CloudWatch",
+  "CloudTrail",
+  "NAT Gateway",
+  "Internet Gateway",
+  "VPC Endpoint",
+  "Gateway Endpoint",
+  "Interface Endpoint",
+  "PrivateLink",
+]
+
+sections = [
+  "核心觀念",
+  "考試會怎麼問",
+  "易混淆選項",
+  "情境題判斷規則",
+  "記憶口訣",
+  "需要查官方文件",
+]
+
+question_patterns = [
+  "題目如果強調高可用，先判斷是否跨 AZ、跨 Region，或是否需要 managed service。",
+  "題目如果強調成本最佳化，先排除過度設計，再比較儲存層級、資料傳輸與營運負擔。",
+  "題目如果強調安全與私有連線，檢查 IAM、KMS、Security Group、NACL、VPC Endpoint 或 PrivateLink。",
+  "題目如果強調最低管理負擔，優先考慮 managed service 或 serverless 選項。",
+]
+
+[corrections]
+"I am" = "IAM"
+"i am" = "IAM"
+"as three" = "S3"
+"s three" = "S3"
+"easy two" = "EC2"
+"ec two" = "EC2"
+"ebs" = "EBS"
+"efs" = "EFS"
+"route fifty three" = "Route 53"
+"cloud front" = "CloudFront"
+"dynamo db" = "DynamoDB"
+"elastic cash" = "ElastiCache"
+"private link" = "PrivateLink"
