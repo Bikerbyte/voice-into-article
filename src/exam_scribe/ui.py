@@ -52,8 +52,8 @@ class ExamScribeApp(tk.Tk):
         icon_path = _resource_path("assets/exam_scribe.ico")
         if icon_path.exists():
             self.iconbitmap(str(icon_path))
-        self.geometry("1160x820")
-        self.minsize(1040, 740)
+        self.geometry("1280x880")
+        self.minsize(1120, 780)
         self.configure(bg="#f5f7f2")
 
         self.devices: list[AudioDevice] = []
@@ -89,6 +89,7 @@ class ExamScribeApp(tk.Tk):
         self._build()
         self._load_profiles()
         self._load_devices()
+        self.after(0, self._show_comfortable_startup_size)
         self._tick()
 
     def _configure_style(self) -> None:
@@ -523,6 +524,22 @@ class ExamScribeApp(tk.Tk):
                 job, exc = payload
                 if isinstance(job, SegmentJob) and isinstance(exc, Exception):
                     self._finish_segment_error(job, exc)
+
+    def _show_comfortable_startup_size(self) -> None:
+        if sys.platform.startswith("win"):
+            try:
+                self.state("zoomed")
+                return
+            except tk.TclError:
+                pass
+
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        width = min(max(1280, int(screen_width * 0.85)), screen_width - 80)
+        height = min(max(880, int(screen_height * 0.85)), screen_height - 80)
+        x = max((screen_width - width) // 2, 0)
+        y = max((screen_height - height) // 2, 0)
+        self.geometry(f"{width}x{height}+{x}+{y}")
 
 
 def main() -> None:
